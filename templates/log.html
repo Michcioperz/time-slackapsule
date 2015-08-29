@@ -1,0 +1,45 @@
+{% extends "core.html" %}
+{% block body %}
+    <div class="container">
+      <div class="jumbotron">
+        <h1>Channel #{{ channel.name }}</h1>
+        <h3>{{ stamp }}</h3>
+        <p class="lead"><strong>Topic:</strong> {{ channel["topic"]["value"] or "none set" }}</p>
+        <p class="lead"><strong>Purpose:</strong> {{ channel["purpose"]["value"] or "none set" }}</p>
+      </div>
+      <div class="stuff">
+        {% for message in log %}
+          {% if message["type"] == "message" %}
+        <div class="card">
+          <div class="card-block">
+            <img src="{{ user[message["user"]]["profile"]["image_72"] }}" class="img-circle pull-right">
+            <blockquote class="blockquote">
+              <p>{{ message["text"] }}</p>
+              <footer>{{ user[message["user"]]["real_name"] or user[message["user"]]["name"] }} {{ datetime.datetime.utcfromtimestamp(int(float(message["ts"]))) }}</footer>
+            </blockquote>
+            {% if "attachments" in message %}
+            <div class="card-group">
+              {% for attachment in message["attachments"] %}
+              <div class="card">
+                {% if "service_name" in attachment or "pretext" in attachment or "author_name" in attachment %}<div class="card-block">
+                  {% if "service_name" in attachment %}<p>{% if "service_url" in attachment %}<a href="{{ attachment["service_url"] }}">{% endif %}{{ attachment["service_name"] }}{% if "service_url" in attachment %}</a>{% endif %}</p>{% endif %}
+                  {% if "author_name" in attachment %}<p>{% if "author_link" in attachment %}<a href="{{ attachment["author_link"] }}">{% endif %}{% if "author_icon" in attachment %}<img src="{{ author_icon }}">{% endif %}{{ attachment["author_name"] }}{% if "author_link" in attachment %}</a>{% endif %}</p>{% endif %}
+                  {% if "pretext" in attachment %}<p>{{ attachment["pretext"] }}</p>{% endif %}
+                </div>{% endif %}
+                {% if "image_url" in attachment or "thumb_url" in attachment %}<img class="card-img-top" src="{{ attachment["image_url"] or attachment["thumb_url"] }}">{% endif %}
+                <div class="card-block">
+                  {% if "title" in attachment %}<h4>{% if "title_link" in attachment %}<a href="{{ attachment["title_link"] }}">{% endif %}{{ attachment["title"] }}{% if "title_link" in attachment %}</a>{% endif %}</h4>{% endif %}
+                  {% if "text" in attachment %}<p>{{ attachment["text"] }}</p>{% endif %}
+                  {% if "text" not in attachment and "image_url" not in attachment and "thumb_url" not in attachment %}<p>{{ attachment["fallback"] }}</p>{% endif %}
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+            {% endif %}
+          </div>
+        </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+{% endblock body %}

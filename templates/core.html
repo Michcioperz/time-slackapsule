@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=devide-width, initial-scale=1">
+    <link rel="stylesheet" href="//cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css">
+    <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="//cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/js/bootstrap.js"></script>
+  </head>
+  <body>
+    <nav class="navbar navbar-dark bg-primary">
+      <a class="navbar-brand" href="/">Slack log viewer</a>
+    </nav>
+    {% for i in range(2) %}<br />{% endfor %}
+    {% block body %}
+    {% endblock body %}
+    {% for i in range(2) %}<br />{% endfor %}
+  </body>
+</html>

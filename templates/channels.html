@@ -1,0 +1,16 @@
+{% extends "core.html" %}
+{% block body %}
+    <div class="container">
+      <h2>Channels list</h2>
+      <div class="card-columns">
+        {% for channel in channels %}
+        <div class="card card-block">
+          <h4 class="card-title">#{{ channel["name"] }}</h4>
+          <p class="card-text"><strong>Topic:</strong> {{ channel["topic"]["value"] or "none set" }}</p>
+          <p class="card-text"><strong>Purpose:</strong> {{ channel["purpose"]["value"] or "none set" }}</p>
+          <a class="card-link" href="{{ url_for("channel", name=channel["name"])}}">Read logs</a>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+{% endblock body %}
